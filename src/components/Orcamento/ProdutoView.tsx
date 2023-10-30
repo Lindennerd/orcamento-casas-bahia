@@ -21,7 +21,7 @@ export const ProdutoView = (props: ProdutoViewProps) => {
           <div className="mt-2 text-gray-500 flex gap-4">
             <span>Quantidade: {props.produto.quantity}</span>
             <span className="text-gray-500">
-              Preço: R$ {formatCurrency(props.produto.price)}
+              Preço: {formatCurrency(props.produto.price)}
             </span>
           </div>
         </div>
