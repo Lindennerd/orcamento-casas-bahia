@@ -12,7 +12,9 @@ export default function Edit() {
 
   useEffect(() => {
     if (!id) return;
-    const orcamento = orcamentos.find((orcamento) => orcamento.id === id);
+    const orcamento = orcamentos.find(
+      (orcamento) => orcamento.id === Number(id)
+    );
     if (!orcamento) return;
     setCurrent(orcamento);
   }, [orcamentos, id]);

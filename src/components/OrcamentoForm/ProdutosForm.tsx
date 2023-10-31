@@ -10,6 +10,7 @@ export interface ProdutosFormProps {
 }
 
 const defaultValue: Produto = {
+  id: 0,
   description: "",
   quantity: 1,
   price: 1,

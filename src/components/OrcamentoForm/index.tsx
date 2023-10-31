@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid";
 import { Orcamento } from "../../../types";
 import { useAppContext } from "../../context/AppContext";
 import { Tabs } from "../Tabs";
@@ -10,13 +9,15 @@ import { ProdutosForm } from "./ProdutosForm";
 import { VendedorForm } from "./VendedorForm";
 
 const defaultValues: Orcamento = {
-  id: "",
+  id: 0,
   cliente: {
+    id: 0,
     name: "",
     cnpj: "",
     ac: "",
   },
   vendedor: {
+    id: 0,
     name: "",
     phone: "",
     email: "",
@@ -61,8 +62,8 @@ export const OrcamentoForm = (props: OrcamentoFormProps) => {
     }, 0);
 
     orcamento.data = new Date().toLocaleDateString("pt-BR");
-    if (orcamento.id === "") {
-      orcamento.id = uuidv4();
+    if (orcamento.id === 0) {
+      orcamento.id = 1;
       setOrcamentos([...orcamentos, orcamento]);
     } else {
       const orcamentosUpdated = orcamentos.map((orc) => {

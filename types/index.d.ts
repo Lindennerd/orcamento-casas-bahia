@@ -1,10 +1,12 @@
 export interface Cliente {
+  id: number;
   name: string;
   cnpj: string;
   ac: string;
 }
 
 export interface Produto {
+  id: number;
   description: string;
   code: string;
   price: number;
@@ -13,13 +15,14 @@ export interface Produto {
 }
 
 export interface Vendedor {
+  id: number;
   name: string;
   phone: string;
   email: string;
 }
 
 export interface Orcamento {
-  id: string;
+  id: number;
   cliente: Cliente;
   vendedor: Vendedor;
   produtos: Produto[];
