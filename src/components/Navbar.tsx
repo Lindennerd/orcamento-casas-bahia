@@ -7,7 +7,12 @@ export default function Navbar() {
         <img src={casasBahiaLogo} className="h-12" />
       </a>
       <div className="flex-1 text-right text-white">
-        <a href="/orcamento/novo">Novo Orçamento</a>
+        <a
+          className="p-2 rounded-md border hover:shadow-md hover:shadow-blue-400 transition-all"
+          href="/orcamento/novo"
+        >
+          Novo Orçamento
+        </a>
       </div>
     </nav>
   );
