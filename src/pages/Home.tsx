@@ -1,8 +1,11 @@
+import LoadingSkeleton from "../components/Loading";
 import { OrcamentoCard } from "../components/OrcamentoCard";
 import { useAppContext } from "../context/AppContext";
 
 export default function Home() {
   const { orcamentos } = useAppContext();
+
+  if (!orcamentos) return <LoadingSkeleton />;
 
   if (!orcamentos.length) {
     return (

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Orcamento } from "../../../types";
 import { useAppContext } from "../../context/AppContext";
+import useApi from "../../hooks/useApi";
 import { Tabs } from "../Tabs";
 import { ClienteForm } from "./ClienteForm";
 import { ProdutosForm } from "./ProdutosForm";
@@ -33,6 +34,7 @@ export interface OrcamentoFormProps {
 
 export const OrcamentoForm = (props: OrcamentoFormProps) => {
   const navigate = useNavigate();
+  const { saveOrcamento } = useApi();
   const [orcamento, setOrcamento] = useState<Orcamento>(defaultValues);
   const { orcamentos, setOrcamentos } = useAppContext();
 
@@ -57,14 +59,9 @@ export const OrcamentoForm = (props: OrcamentoFormProps) => {
       return;
     }
 
-    orcamento.total = orcamento.produtos.reduce((acc, cur) => {
-      return acc + cur.price * cur.quantity + cur.frete;
-    }, 0);
-
-    orcamento.data = new Date().toLocaleDateString("pt-BR");
     if (orcamento.id === 0) {
       orcamento.id = 1;
-      setOrcamentos([...orcamentos, orcamento]);
+      saveOrcamento(orcamento);
     } else {
       const orcamentosUpdated = orcamentos.map((orc) => {
         if (orc.id === orcamento.id) {
@@ -74,8 +71,8 @@ export const OrcamentoForm = (props: OrcamentoFormProps) => {
       });
       setOrcamentos(orcamentosUpdated);
     }
-    setOrcamento(defaultValues);
-    navigate(`/orcamento/${orcamento.id}`);
+    //setOrcamento(defaultValues);
+    //navigate(`/orcamento/${orcamento.id}`);
   }
 
   const tabs = [
