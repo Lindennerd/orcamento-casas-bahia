@@ -98,5 +98,13 @@ export default function useApi() {
       if (json instanceof Array) return mapOrcamentos(json);
       else return [];
     },
+    updateOrcamento: async (orcamento: Orcamento) => {
+      const response = await fetch("/.netlify/functions/update-orcamento", {
+        method: "POST",
+        body: JSON.stringify(orcamento),
+      });
+
+      return response;
+    },
   };
 }

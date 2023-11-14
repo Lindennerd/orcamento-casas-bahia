@@ -12,6 +12,8 @@ export interface Produto {
   price: number;
   frete: number;
   quantity: number;
+  deleted?: boolean;
+  editting?: boolean;
 }
 
 export interface Vendedor {

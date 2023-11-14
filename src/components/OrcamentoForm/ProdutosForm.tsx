@@ -31,8 +31,24 @@ export const ProdutosForm = (props: ProdutosFormProps) => {
       return;
     }
 
-    props.setProdutos([...props.produtos, produto]);
+    props.setProdutos([...props.produtos, { ...produto, editting: false }]);
     setProduto(defaultValue);
+  }
+
+  function handleDeleteProduto(index: number) {
+    const produto = props.produtos[index];
+    props.setProdutos([
+      ...props.produtos.filter((_, i) => i !== index),
+      { ...produto, deleted: true },
+    ]);
+  }
+
+  function handleEditProduto(index: number) {
+    const produto = props.produtos[index];
+    props.setProdutos([
+      ...props.produtos.filter((_, i) => i !== index),
+      { ...produto, editting: true },
+    ]);
   }
 
   return (
@@ -100,57 +116,55 @@ export const ProdutosForm = (props: ProdutosFormProps) => {
         </button>
       </Form>
       <div className="mt-4">
-        {props.produtos.map((produto, index) => (
-          <div
-            className="max-w-md mx-auto border-t border-b overflow-hidden md:max-w-2xl"
-            key={index}
-          >
-            <div className="md:flex justify-between items-center">
-              <div className="p-8">
-                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
-                  Código: {produto.code}
+        {props.produtos
+          .filter((p) => !p.deleted)
+          .filter((p) => !p.editting)
+          .map((produto, index) => (
+            <div
+              className="max-w-md mx-auto border-t border-b overflow-hidden md:max-w-2xl"
+              key={index}
+            >
+              <div className="md:flex justify-between items-center">
+                <div className="p-8">
+                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                    Código: {produto.code}
+                  </div>
+                  <a
+                    href="#"
+                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                  >
+                    {produto.description}
+                  </a>
+                  <div className="mt-2 text-gray-500 flex gap-4">
+                    <span>Quantidade: {produto.quantity}</span>
+                    <span className="text-gray-500">
+                      Price: R$ {produto.price}
+                    </span>
+                  </div>
                 </div>
-                <a
-                  href="#"
-                  className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
-                >
-                  {produto.description}
-                </a>
-                <div className="mt-2 text-gray-500 flex gap-4">
-                  <span>Quantidade: {produto.quantity}</span>
-                  <span className="text-gray-500">
-                    Price: R$ {produto.price}
-                  </span>
+                <div className="p-2 flex">
+                  <a
+                    className="cursor-pointer p-4 text-blue-500 hover:text-blue-700 transition-all"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleEditProduto(index);
+                    }}
+                  >
+                    <FiEdit />
+                  </a>
+                  <a
+                    className="cursor-pointer p-4 text-red-500 hover:text-red-700 transition-all"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDeleteProduto(index);
+                    }}
+                  >
+                    <FiTrash />
+                  </a>
                 </div>
-              </div>
-              <div className="p-2 flex">
-                <a
-                  className="cursor-pointer p-4 text-blue-500 hover:text-blue-700 transition-all"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setProduto(produto);
-                    props.setProdutos(
-                      props.produtos.filter((_, i) => i !== index)
-                    );
-                  }}
-                >
-                  <FiEdit />
-                </a>
-                <a
-                  className="cursor-pointer p-4 text-red-500 hover:text-red-700 transition-all"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    props.setProdutos(
-                      props.produtos.filter((_, i) => i !== index)
-                    );
-                  }}
-                >
-                  <FiTrash />
-                </a>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

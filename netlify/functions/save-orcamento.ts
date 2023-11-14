@@ -36,20 +36,22 @@ export const handler: Handler = withPlanetscale(async (event, context) => {
         [cliente.insertId, vendedor.insertId]
       );
       await Promise.all(
-        orcamento.produtos.map(async (produto) => {
-          const produtoInsert = await connection.execute(
-            "INSERT INTO Produto (description, code, price, frete, quantity, orcamento_id) VALUES (?, ?, ?, ?, ?, ?)",
-            [
-              produto.description,
-              produto.code,
-              produto.price,
-              produto.frete,
-              produto.quantity,
-              orcamentoId.insertId,
-            ]
-          );
-          return produtoInsert;
-        })
+        orcamento.produtos
+          .filter((p) => !p.deleted)
+          .map(async (produto) => {
+            const produtoInsert = await connection.execute(
+              "INSERT INTO Produto (description, code, price, frete, quantity, orcamento_id) VALUES (?, ?, ?, ?, ?, ?)",
+              [
+                produto.description,
+                produto.code,
+                produto.price,
+                produto.frete,
+                produto.quantity,
+                orcamentoId.insertId,
+              ]
+            );
+            return produtoInsert;
+          })
       );
     });
   } catch (error) {

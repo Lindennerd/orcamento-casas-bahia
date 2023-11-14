@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Orcamento } from "../../../types";
-import { useAppContext } from "../../context/AppContext";
 import useApi from "../../hooks/useApi";
 import { Tabs } from "../Tabs";
 import { ClienteForm } from "./ClienteForm";
@@ -34,9 +33,8 @@ export interface OrcamentoFormProps {
 
 export const OrcamentoForm = (props: OrcamentoFormProps) => {
   const navigate = useNavigate();
-  const { saveOrcamento } = useApi();
+  const { saveOrcamento, updateOrcamento } = useApi();
   const [orcamento, setOrcamento] = useState<Orcamento>(defaultValues);
-  const { orcamentos, setOrcamentos } = useAppContext();
 
   useEffect(() => {
     if (!props.orcamento) return;
@@ -60,19 +58,12 @@ export const OrcamentoForm = (props: OrcamentoFormProps) => {
     }
 
     if (orcamento.id === 0) {
-      orcamento.id = 1;
       saveOrcamento(orcamento);
     } else {
-      const orcamentosUpdated = orcamentos.map((orc) => {
-        if (orc.id === orcamento.id) {
-          return orcamento;
-        }
-        return orc;
-      });
-      setOrcamentos(orcamentosUpdated);
+      updateOrcamento(orcamento);
     }
-    //setOrcamento(defaultValues);
-    //navigate(`/orcamento/${orcamento.id}`);
+    setOrcamento(defaultValues);
+    navigate(`/orcamento/${orcamento.id}`);
   }
 
   const tabs = [
